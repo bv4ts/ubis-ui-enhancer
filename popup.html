@@ -1,23 +1,55 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>UBIS UI Enhancer</title>
+  <style>
+      /* Inline critical CSS to avoid FOUC, main styles in popup.css */
+      body { width: 300px; margin: 0; }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="popup">
-    <img src="logo.png" alt="Logo" class="logo">
-    <h1>UBIS UI Enhancer</h1>
-    <p>Enhance the UBIS interface visually and functionally.</p>
-    <p><strong>Created by:</strong> Baraa Alshugri <img src="https://cdn.britannica.com/50/4550-050-3D264DD7/Flag-Syria.jpg" alt="Syria Flag" width="20"></p>
-    <p class="hashtag">#Free_Palestine <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Flag_of_Palestine.png" alt="Palestine Flag" width="20"></p>
-    <label class="switch">
-      <input type="checkbox" id="toggleEnhancer">
-      <span class="slider round"></span>
-    </label>
-    <span id="statusText">Enabled</span>
+  <div class="popup-container">
+    <div class="header">
+        <img src="logo.png" alt="UBIS Logo" class="logo">
+        <h1>UBIS UI Enhancer</h1>
+        <span class="version">v2.0</span>
+    </div>
+    
+    <div class="description">
+        <p>Enhance the Istanbul Aydın University interface with modern themes and features.</p>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="control-row">
+            <span>Enabled</span>
+            <label class="switch">
+                <input type="checkbox" id="toggleEnhancer" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="status" id="statusText">Active</div>
+        
+        <div class="divider"></div>
+        
+        <div class="theme-preview">
+            <span>Themes Available:</span>
+            <div class="theme-icons">
+                <i class="fa-solid fa-moon" style="color:#4f46e5"></i>
+                <i class="fa-solid fa-sun" style="color:#f59e0b"></i>
+                <i class="fa-solid fa-heart" style="color:#db2777"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Credits -->
+    <div class="credits">
+        <p><strong>Created by:</strong> Baraa Alshugri <img src="https://cdn.britannica.com/50/4550-050-3D264DD7/Flag-Syria.jpg" alt="Syria Flag" class="flag"></p>
+        <p class="hashtag">#Free_Palestine <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Flag_of_Palestine.png" alt="Palestine Flag" class="flag"></p>
+    </div>
   </div>
   <script src="popup.js"></script>
 </body>

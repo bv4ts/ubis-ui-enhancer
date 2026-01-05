@@ -1,1 +1,33 @@
-{"manifest_version": 3, "name": "UBIS UI Enhancer", "version": "1.0", "description": "Improved usability and visual design for UBIS platform. #Free_Palestine", "permissions": ["storage", "scripting"], "host_permissions": ["*://ubis.aydin.edu.tr/*"], "icons": {"128": "logo.png"}, "content_scripts": [{"matches": ["*://ubis.aydin.edu.tr/*"], "js": ["content.js"], "run_at": "document_idle"}], "action": {"default_popup": "popup.html", "default_icon": "logo.png"}}
+{
+  "manifest_version": 3,
+  "name": "UBIS UI Enhancer",
+  "version": "2.0",
+  "description": "Enhance the Istanbul Aydın University Information System (UBIS) with a modern, glassmorphic UI.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://ubis.aydin.edu.tr/*"
+  ],
+  "action": {
+      "default_popup": "popup.html",
+      "default_title": "UBIS UI Enhancer",
+      "default_icon": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://ubis.aydin.edu.tr/*"],
+      "css": ["styles.css"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css", "content.js", "ribbon.png", "iamjustgirl.MP3", "Uni_logo_DarkMode.png", "Uni_logo_LightMode.png", "Uni_logo_GirlyMode.png"],
+      "matches": ["*://ubis.aydin.edu.tr/*"]
+    }
+  ]
+}
