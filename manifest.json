@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "UBIS UI Enhancer",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Enhance the Istanbul Aydın University Information System (UBIS) with a modern, glassmorphic UI.",
   "permissions": [
     "activeTab",
@@ -26,7 +26,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["styles.css", "content.js", "ribbon.png", "iamjustgirl.MP3", "Uni_logo_DarkMode.png", "Uni_logo_LightMode.png", "Uni_logo_GirlyMode.png"],
+      "resources": ["styles.css", "content.js", "ribbon.png", "Uni_logo_DarkMode.png", "Uni_logo_LightMode.png", "Uni_logo_GirlyMode.png", "Uni_logo_BatmanMode.png", "Uni_logo_SpiderManMode.png"],
       "matches": ["*://ubis.aydin.edu.tr/*"]
     }
   ]

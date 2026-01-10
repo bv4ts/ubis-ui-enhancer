@@ -135,6 +135,174 @@ body.girly-mode {
     --header-btn-bg: rgba(219, 39, 119, 0.1); /* Pink tint */
 }
 
+/* Theme Dropdown Menu */
+.theme-dropdown-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.theme-dropdown-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: var(--card-bg); /* Adapts to theme */
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 0.5rem;
+    min-width: 160px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    gap: 0.25rem;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.theme-dropdown-menu.active {
+    display: flex;
+}
+
+.theme-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.theme-dropdown-item:hover {
+    background: var(--header-btn-bg);
+    transform: translateX(3px);
+}
+
+.theme-dropdown-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Spiderman Mode */
+body.spiderman-mode {
+    --bg-color: #0f172a; /* Dark Blue */
+    --sidebar-bg: #1e3a8a; /* Blue-900 */
+    --card-bg: rgba(30, 58, 138, 0.9);
+    --card-border: rgba(225, 29, 72, 0.5); /* Rose-600 */
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --primary-color: #e11d48; /* Rose-600 (Spidey Red) */
+    --secondary-color: #60a5fa; /* Blue-400 */
+    
+    --header-btn-color: #f1f5f9;
+    --header-btn-bg: rgba(225, 29, 72, 0.2);
+    --dropdown-bg: #1e3a8a;
+
+    /* Spiderman Inner Page Vars */
+    --inner-text: #f1f5f9;
+    --inner-bg: transparent;
+    --inner-table-bg: rgba(30, 58, 138, 0.4);
+    --inner-table-border: rgba(225, 29, 72, 0.3);
+    --inner-th-bg: rgba(30, 58, 138, 0.9);
+    --inner-th-text: #e11d48;
+    --inner-th-border-bottom: #e11d48;
+    --inner-td-text: #f1f5f9;
+    --inner-td-border: rgba(225, 29, 72, 0.2);
+    --inner-zebra-bg: rgba(30, 58, 138, 0.2);
+    --inner-hover-bg: rgba(225, 29, 72, 0.2);
+    --inner-hover-text: #ffffff;
+    --inner-link: #60a5fa;
+    --inner-link-hover: #e11d48;
+    --inner-input-bg: rgba(30, 58, 138, 0.8);
+    --inner-input-text: #ffffff;
+    --inner-input-border: #e11d48;
+
+    /* Lesson Card Overrides */
+    --lesson-card-bg: rgba(30, 58, 138, 0.8);
+    --lesson-item-bg: rgba(15, 23, 42, 0.6);
+    --lesson-item-border: rgba(225, 29, 72, 0.3);
+    --hover-bg: rgba(225, 29, 72, 0.1);
+}
+body.spiderman-mode .sidebar-header h2 { color: #e11d48 !important; text-shadow: 0 0 10px rgba(225,29,72,0.5); }
+body.spiderman-mode .sidebar-nav li.active { background: linear-gradient(90deg, rgba(225,29,72,0.2) 0%, transparent 100%); border-left-color: #e11d48; }
+
+/* Batman Mode */
+body.batman-mode {
+    --bg-color: #0a0a0a; /* Pure Black-ish */
+    --sidebar-bg: #111;
+    --card-bg: rgba(20, 20, 20, 0.95);
+    --card-border: rgba(250, 204, 21, 0.3); /* Yellow-400 */
+    --text-main: #e5e5e5;
+    --text-muted: #737373;
+    --primary-color: #facc15; /* Yellow-400 */
+    --secondary-color: #fbbf24;
+    
+    --header-btn-color: #facc15;
+    --header-btn-bg: rgba(250, 204, 21, 0.1);
+    --dropdown-bg: #171717;
+
+    /* Batman Inner Page Vars */
+    --inner-text: #e5e5e5;
+    --inner-bg: transparent;
+    --inner-table-bg: rgba(0, 0, 0, 0.6);
+    --inner-table-border: rgba(250, 204, 21, 0.2);
+    --inner-th-bg: #171717;
+    --inner-th-text: #facc15;
+    --inner-th-border-bottom: #facc15;
+    --inner-td-text: #e5e5e5;
+    --inner-td-border: rgba(250, 204, 21, 0.15);
+    --inner-zebra-bg: rgba(250, 204, 21, 0.05);
+    --inner-hover-bg: rgba(250, 204, 21, 0.15);
+    --inner-hover-text: #ffffff;
+    --inner-link: #facc15;
+    --inner-link-hover: #fbbf24;
+    --inner-input-bg: #171717;
+    --inner-input-text: #facc15;
+    --inner-input-border: #facc15;
+
+    /* Lesson Card Overrides */
+    --lesson-card-bg: rgba(20, 20, 20, 0.9);
+    --lesson-item-bg: #171717;
+    --lesson-item-border: rgba(250, 204, 21, 0.2);
+    --hover-bg: rgba(250, 204, 21, 0.1);
+}
+body.batman-mode .sidebar-header h2 { color: #facc15 !important; text-shadow: 0 0 10px rgba(250,204,21,0.3); }
+body.batman-mode .sidebar-nav li.active { background: linear-gradient(90deg, rgba(250,204,21,0.15) 0%, transparent 100%); border-left-color: #facc15; }
+
+/* Animations */
+.animation-icon {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 2rem;
+    opacity: 0;
+}
+
+/* Bat Fly Animation */
+@keyframes batFly {
+    0% { transform:  translate(-10vw, 10vh) scale(0.5); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translate(110vw, -20vh) scale(1.2); opacity: 0; }
+}
+
+/* Spider Web Animation */
+@keyframes webDrop {
+    0% { transform: translateY(-100%) scale(0.8); opacity: 0; }
+    50% { transform: translateY(0) scale(1); opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-20%) scale(1.1); opacity: 0; }
+}
+
+/* Specific Hover Colors */
+.theme-dropdown-item[data-theme="light"]:hover i { color: #f59e0b; }
+.theme-dropdown-item[data-theme="dark"]:hover i { color: #4f46e5; }
+.theme-dropdown-item[data-theme="girly"]:hover i { color: #db2777; }
+
 /* Ribbon Decoration (Girly Mode Only) */
 .ribbon-decoration {
     display: none; /* Hidden by default */
@@ -526,6 +694,40 @@ body.ubis-enhanced {
 .shortcut-card span {
     font-weight: 500;
     font-size: 0.95rem;
+}
+
+/* Spiderman Polish: Quick Access Red Text */
+body.spiderman-mode .shortcut-card {
+    color: #e11d48 !important; /* Spidey Red */
+    border-color: rgba(225, 29, 72, 0.5); /* Matching border */
+}
+body.spiderman-mode .shortcut-card .icon-box {
+    background: rgba(225, 29, 72, 0.2);
+    color: #e11d48;
+}
+body.spiderman-mode .shortcut-card:hover {
+    background: rgba(225, 29, 72, 0.1);
+    box-shadow: 0 0 15px rgba(225, 29, 72, 0.3);
+}
+
+/* Batman Polish: Quick Access Yellow Text */
+body.batman-mode .shortcut-card {
+    color: #facc15 !important; /* Batman Yellow */
+    border-color: rgba(250, 204, 21, 0.5); /* Matching border */
+}
+body.batman-mode .shortcut-card .icon-box {
+    background: rgba(250, 204, 21, 0.2);
+    color: #facc15;
+}
+body.batman-mode .shortcut-card:hover {
+    background: rgba(250, 204, 21, 0.1);
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+}
+
+/* Light & Girly Mode Safety Overrides (Prevent White Text Bleed from Default) */
+body.light-mode .shortcut-card,
+body.girly-mode .shortcut-card {
+    color: var(--text-main) !important;
 }
 
 /* Dashboard Grid (Announcements) */
@@ -950,6 +1152,7 @@ body.ubis-enhanced #splashNews {
     border-collapse: separate !important;
     border-spacing: 0 !important;
     margin-top: 1rem !important;
+    margin-bottom: 2rem !important; /* Added Spacing between tables */
     background-color: var(--inner-table-bg) !important;
     border-radius: 12px !important;
     overflow: hidden !important;
@@ -982,17 +1185,30 @@ body.ubis-enhanced #splashNews {
 }
 
 /* Hover Effect (Bright and Clear - NO BOLD) */
+/* Hover Effect - Adjusted for Readability */
 .inner-page-container tr:hover td {
     background-color: var(--inner-hover-bg) !important;
-    color: var(--inner-hover-text) !important;
-    text-shadow: none !important;
-    /* font-weight: 600 !important; REMOVED as per user request */
+    color: var(--inner-text) !important; /* Keep original text color to ensure contrast, or slightly brighter */
+    /* Removed explicit hover-text override to avoid white-on-white issues if variables are mismatched */
 }
 
-/* Ensure links inside hovered rows are also readable */
+/* Ensure links inside hovered rows stay readable */
 .inner-page-container tr:hover td a {
-    color: var(--inner-hover-text) !important;
-    border-bottom-color: var(--inner-hover-text) !important;
+    color: var(--primary-color) !important;
+}
+
+/* 5. FORCE Override for "Selected" or "Active" rows from Legacy */
+/* This catches the white row issue - now targeting bgcolor attributes too */
+.inner-page-container tr[style*="background"], 
+.inner-page-container td[style*="background"],
+.inner-page-container tr[bgcolor],
+.inner-page-container td[bgcolor],
+.inner-page-container .highlight,
+.inner-page-container .selected,
+.inner-page-container .active {
+    background-color: var(--inner-hover-bg) !important;
+    background: var(--inner-hover-bg) !important; /* Double tap */
+    color: var(--inner-text) !important;
 }
 
 /* 7. Hide specific legacy garbage if detected */

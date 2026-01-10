@@ -31,7 +31,7 @@ const iconMap = {
     'Academic Calendar': 'fa-calendar',
     'PDPA Student Information Text': 'fa-file-shield',
     'Registration Info': 'fa-address-card',
-    'Internship Info': 'fa-briefcase',
+    'Internship Info': 'fad-briefcase',
     'YUM-III Prerequisites': 'fa-list-ol',
     'Work Placement (YUM)': 'fa-building',
     'Finance Information': 'fa-coins',
@@ -113,7 +113,9 @@ const translations = {
 const logos = {
     dark: chrome.runtime.getURL('Uni_logo_DarkMode.png'),
     light: chrome.runtime.getURL('Uni_logo_LightMode.png'),
-    girly: chrome.runtime.getURL('Uni_logo_GirlyMode.png')
+    girly: chrome.runtime.getURL('Uni_logo_GirlyMode.png'),
+    batman: chrome.runtime.getURL('Uni_logo_BatmanMode.png'),
+    spiderman: chrome.runtime.getURL('Uni_logo_SpiderManMode.png')
 };
 
 let currentLang = 'EN'; // Default
@@ -598,16 +600,41 @@ function renderAnnouncements(newsData) {
 
 function injectUI(isHomePage, user, menuItems, newsData, favorites) {
     // Load Theme Preference immediately
+    // Load Theme Preference immediately
     chrome.storage.local.get(['theme'], (result) => {
         const logoImg = document.querySelector('#sidebar-logo');
+        const themeBtn = document.querySelector('#theme-toggle'); // Might be null initially, handled below or via Mutation/Timing? 
+        // Actually, since this is ASYNC, DOM creation below runs FIRST. 
+        // By the time this callback runs, themeBtn SHOULD be in DOM.
+        
+        // Define icons
+        const icons = {
+            light: '<i class="fa-solid fa-sun"></i>',
+            girly: '<i class="fa-solid fa-heart"></i>',
+            spiderman: '<i class="fa-solid fa-spider"></i>',
+            batman: '<i class="fa-solid fa-mask"></i>',
+            dark: '<i class="fa-solid fa-moon"></i>'
+        };
+
         if (result.theme === 'light') {
             document.body.classList.add('light-mode');
             if(logoImg) logoImg.src = logos.light;
+            if(themeBtn) themeBtn.innerHTML = icons.light;
         } else if (result.theme === 'girly') {
             document.body.classList.add('girly-mode');
             if(logoImg) logoImg.src = logos.girly;
+            if(themeBtn) themeBtn.innerHTML = icons.girly;
+        } else if (result.theme === 'spiderman') {
+            document.body.classList.add('spiderman-mode');
+            if(logoImg) logoImg.src = logos.spiderman; 
+            if(themeBtn) themeBtn.innerHTML = icons.spiderman;
+        } else if (result.theme === 'batman') {
+            document.body.classList.add('batman-mode');
+            if(logoImg) logoImg.src = logos.batman; 
+            if(themeBtn) themeBtn.innerHTML = icons.batman;
         } else {
              if(logoImg) logoImg.src = logos.dark;
+             if(themeBtn) themeBtn.innerHTML = icons.dark;
         }
     });
 
@@ -716,12 +743,31 @@ function injectUI(isHomePage, user, menuItems, newsData, favorites) {
         </div>
         
         <div class="header-actions" style="display:flex;align-items:center;gap:1.5rem;">
-            <!-- Theme Switcher -->
-            <button id="theme-toggle" class="header-btn" title="Toggle Light/Dark Mode" style="padding:0.5rem;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
-                <i class="fa-solid fa-sun"></i>
+        <!-- Theme Dropdown -->
+        <div class="theme-dropdown-container">
+            <button id="theme-toggle" class="header-btn" title="Change Theme" style="padding:0.5rem;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
+                <i class="fa-solid fa-moon"></i>
             </button>
-
-                <!-- Language Switcher -->
+            <div class="theme-dropdown-menu" id="theme-menu">
+                <div class="theme-dropdown-item" data-theme="dark">
+                    <i class="fa-solid fa-moon"></i> Dark Mode
+                </div>
+                <div class="theme-dropdown-item" data-theme="light">
+                    <i class="fa-solid fa-sun"></i> Light Mode
+                </div>
+                <div class="theme-dropdown-item" data-theme="girly">
+                    <i class="fa-solid fa-heart"></i> Girly Mode
+                </div>
+                <div class="theme-dropdown-item" data-theme="spiderman">
+                    <i class="fa-solid fa-spider"></i> Spiderman
+                </div>
+                <div class="theme-dropdown-item" data-theme="batman">
+                    <i class="fa-solid fa-mask"></i> Batman
+                </div>
+            </div>
+        </div>
+        
+        <!-- Language Switcher -->
                 <div class="lang-switcher" style="display:flex;gap:0.5rem;background:var(--header-btn-bg);padding:0.25rem 0.5rem;border-radius:20px;">
                 <button id="btn-lang-tr" class="header-btn" style="background:transparent;opacity:${currentLang==='TR'?'1':'0.5'};width:auto;">TR</button>
                 <span style="color:var(--text-muted);">|</span>
@@ -748,32 +794,12 @@ function injectUI(isHomePage, user, menuItems, newsData, favorites) {
             window.location.href = url.toString();
     };
 
-    // Theme Toggle Logic (3-Way: Dark -> Light -> Girly -> Dark)
-    const themeBtn = header.querySelector('#theme-toggle');
-    const updateThemeIcon = () => {
-        const logoImg = document.querySelector('#sidebar-logo');
-        // Determine current state based on body class
-        if (document.body.classList.contains('light-mode')) {
-            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-            if(logoImg) logoImg.src = logos.light;
-        } else if (document.body.classList.contains('girly-mode')) {
-            themeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>'; 
-            if(logoImg) logoImg.src = logos.girly;
-        } else {
-            themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-            if(logoImg) logoImg.src = logos.dark;
-        }
-        // Style is handled by CSS class
-    };
-    
-    // Initial check
-    setTimeout(updateThemeIcon, 50); 
-
-    // Sound Effect 🔊
-    const girlySound = new Audio(chrome.runtime.getURL('iamjustgirl.MP3'));
+    // Sound Effect REMOVED by user request
+    // const girlySound = new Audio(chrome.runtime.getURL('iamjustgirl.MP3'));
 
     // Sprinkles Animation Logic
     const triggerSprinkles = () => {
+        // girlySound.play().catch(e => console.log(e)); // Sound removed
         const colors = ['#db2777', '#f472b6', '#fce7f3', '#fbbf24', '#ffffff'];
         for (let i = 0; i < 50; i++) {
             const el = document.createElement('div');
@@ -783,31 +809,148 @@ function injectUI(isHomePage, user, menuItems, newsData, favorites) {
             el.style.animationDuration = (Math.random() * 2 + 1) + 's'; // 1-3s
             el.style.animationDelay = Math.random() * 0.5 + 's';
             document.body.appendChild(el);
-            
-            // Remove after animation
             setTimeout(() => el.remove(), 3000);
         }
     };
 
-    themeBtn.addEventListener('click', () => {
-        // Cycle logic
-        if (document.body.classList.contains('light-mode')) {
-            // Light -> Girly
-            document.body.classList.remove('light-mode');
-            document.body.classList.add('girly-mode');
-            chrome.storage.local.set({ theme: 'girly' });
-            triggerSprinkles(); // ✨ Trigger Animation
-            girlySound.play().catch(e => console.log('Audio play failed:', e)); // 🔊 Play Sound
-        } else if (document.body.classList.contains('girly-mode')) {
-            // Girly -> Dark
-            document.body.classList.remove('girly-mode');
-            chrome.storage.local.set({ theme: 'dark' });
-        } else {
-            // Dark (default) -> Light
-            document.body.classList.add('light-mode');
-            chrome.storage.local.set({ theme: 'light' });
+    // Batman Animation 🦇
+    const triggerBats = () => {
+        for(let i=0; i<15; i++) {
+            const el = document.createElement('i');
+            el.className = 'fa-solid fa-crow animation-icon'; // Using crow as bat-like shape if fa-bat not avail
+            // If fontawesome 6 has fa-bat, use it. Let's try fa-crow first as a safe fallback or fa-dragon. 
+            // Actually let's assume fa-bat exists in newer FA, if not it will just be blank.
+            // Safe bet: fa-crow looks like a flying silhouette.
+            el.classList.add('fa-bat'); // Try adding specific if available
+            el.style.left = '-10vw';
+            el.style.top = Math.random() * 80 + 'vh';
+            el.style.color = Math.random() > 0.5 ? '#000' : '#333';
+            el.style.animation = `batFly ${2 + Math.random()}s linear forwards`;
+            el.style.animationDelay = Math.random() + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 4000);
         }
-        updateThemeIcon();
+    };
+
+    // Spiderman Animation 🕸️
+    const triggerWebs = () => {
+        for(let i=0; i<10; i++) {
+            const el = document.createElement('i');
+            el.className = 'fa-solid fa-spider animation-icon';
+            el.style.left = Math.random() * 90 + 'vw';
+            el.style.top = Math.random() * 80 + 'vh';
+            el.style.color = Math.random() > 0.5 ? '#e11d48' : '#1e3a8a'; // Red or Blue
+            el.style.animation = `webDrop ${1.5 + Math.random()}s ease-in-out forwards`;
+            el.style.animationDelay = Math.random() * 0.5 + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 3000);
+        }
+    };
+
+    // Theme Dropdown Logic
+    const themeBtn = header.querySelector('#theme-toggle');
+    const themeMenu = header.querySelector('#theme-menu');
+    const themeItems = header.querySelectorAll('.theme-dropdown-item');
+
+    // Update Icon & Logo function
+    const updateVisuals = (themeName) => {
+        const logoImg = document.querySelector('#sidebar-logo');
+        const body = document.body;
+
+        // Reset classes
+        body.classList.remove('light-mode', 'girly-mode', 'spiderman-mode', 'batman-mode');
+
+        if (logoImg) logoImg.src = logos.dark; // Default
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+
+        if (themeName === 'light') {
+            body.classList.add('light-mode');
+            if (logoImg) logoImg.src = logos.light;
+            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        } else if (themeName === 'girly') {
+            body.classList.add('girly-mode');
+            if (logoImg) logoImg.src = logos.girly;
+            themeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>'; 
+        } else if (themeName === 'spiderman') {
+            body.classList.add('spiderman-mode');
+            if (logoImg) logoImg.src = logos.spiderman;
+            themeBtn.innerHTML = '<i class="fa-solid fa-spider"></i>';
+        } else if (themeName === 'batman') {
+            body.classList.add('batman-mode');
+            if (logoImg) logoImg.src = logos.batman;
+            themeBtn.innerHTML = '<i class="fa-solid fa-mask"></i>';
+        }
+    };
+
+    // Initial Visual Set (based on existing class)
+    // We already set body class at start of injectUI, so we just sync icon here.
+    let initialTheme = 'dark';
+    if (document.body.classList.contains('girly-mode')) initialTheme = 'girly';
+    else if (document.body.classList.contains('light-mode')) initialTheme = 'light';
+    else if (document.body.classList.contains('spiderman-mode')) initialTheme = 'spiderman';
+    else if (document.body.classList.contains('batman-mode')) initialTheme = 'batman';
+    
+    updateVisuals(initialTheme);
+    
+
+    // Toggle Menu
+    themeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        themeMenu.classList.toggle('active');
+    });
+
+    // Handle Selection
+    themeItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const selectedTheme = item.getAttribute('data-theme');
+            
+            // Apply Theme
+            updateVisuals(selectedTheme);
+            chrome.storage.local.set({ theme: selectedTheme });
+            
+            // Special Effects for Girly Mode
+            if (selectedTheme === 'girly') {
+                if (typeof triggerSprinkles === 'function') triggerSprinkles();
+                const girlySound = new Audio(chrome.runtime.getURL('iamjustgirl.MP3'));
+                girlySound.play().catch(e => console.log('Audio error:', e));
+            } else if (selectedTheme === 'spiderman') {
+                triggerWebs();
+            } else if (selectedTheme === 'batman') {
+                triggerBats();
+            }
+
+            // Close Menu
+            themeMenu.classList.remove('active');
+        });
+    });
+
+    // Clean Table Styles (NUCLEAR OPTION) 🧹
+    // Repeats every 500ms (faster!) to fight back against legacy scripts re-applying styles
+    setInterval(() => {
+        const dirtyRows = document.querySelectorAll('.inner-page-container tr[style*="background"], .inner-page-container td[style*="background"], .inner-page-container tr[bgcolor], .inner-page-container td[bgcolor]');
+        dirtyRows.forEach(el => {
+            el.style.removeProperty('background-color');
+            el.style.removeProperty('background');
+            el.style.removeProperty('color');
+            el.removeAttribute('bgcolor'); // Remove legacy attribute
+        });
+    }, 500);
+    // Add cleaner to initial load too
+    setTimeout(() => {
+        const dirtyRows = document.querySelectorAll('.inner-page-container tr[style*="background"], .inner-page-container td[style*="background"], .inner-page-container tr[bgcolor], .inner-page-container td[bgcolor]');
+        dirtyRows.forEach(el => {
+             el.style.removeProperty('background-color');
+             el.style.removeProperty('background');
+             el.style.removeProperty('color');
+             el.removeAttribute('bgcolor');
+        });
+    }, 200);
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!themeBtn.contains(e.target) && !themeMenu.contains(e.target)) {
+            themeMenu.classList.remove('active');
+        }
     });
 
     const btnTR = header.querySelector('#btn-lang-tr');
